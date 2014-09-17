@@ -26,7 +26,7 @@ owc.client.prototype.loadContext = function(url, callback) {
 
 // application code
 var map;
-function loadContext(context) {
+function onContextLoaded(context) {
     // set the map size (General.Window)
     if (context.general.window) {
         $('#map').width(context.general.window.width);
@@ -81,4 +81,10 @@ map = new ol.Map({
     target: 'map'
 });
 var myOwcClient = new owc.client();
-myOwcClient.loadContext('js/autres_reseaux.xml', loadContext);
+
+$('#contexts a').on('click', function() {
+    var link = $(this);
+    var url = link.attr('data-url');
+    myOwcClient.loadContext('contexts/' + url, onContextLoaded);
+    return false;
+});
