@@ -69,7 +69,7 @@ function onContextLoaded(context) {
             // pass
         } else if (layer.name.indexOf('osm') != -1) {
             var osmSource = new ol.source.OSM();
-            map.addLayer(new ol.layer.Tile({source: osmSource}));
+            olLayer = new ol.layer.Tile({source: osmSource});
         } else {
             var server = layer.server[0];
             if (server.service == 'urn:ogc:serviceType:WMS') {
@@ -78,12 +78,14 @@ function onContextLoaded(context) {
                     url: onlineResource.href,
                     params: {'LAYERS': layer.name}
                 });
-                map.addLayer(new ol.layer.Image({
-                    source: source,
-                    opacity: layer.opacity || 1,
-                    visible: !layer.hidden
-                }));
+                var olLayer = new ol.layer.Image({ source: source });
             }
+        }
+        if (olLayer) {
+            olLayer.setOpacity(layer.opacity);
+            olLayer.setVisible(!layer.hidden);
+            olLayer.set('group', layer.group);
+            map.addLayer(olLayer);
         }
     }
 }
@@ -123,7 +125,9 @@ function writeContext() {
         }
         resourceList.layer.push({
             hidden: layer.getVisible(),
+            opacity: layer.getOpacity(),
             name: name,
+            group: layer.get("group"),
             server: [{
                 onlineResource: [{
                     href: url
