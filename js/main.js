@@ -27,6 +27,11 @@ owc.client.prototype.loadContext = function(url, callback) {
 // application code
 var map;
 function onContextLoaded(context) {
+    // first remove any existing layer
+    map.getLayers().forEach(function(layer) {
+        console.info('Layer removed: ', layer);
+        map.removeLayer(layer);
+    });
     // set the map size (General.Window)
     if (context.general.window) {
         $('#map').width(context.general.window.width);
