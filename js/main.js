@@ -16,12 +16,16 @@ owc.client.prototype.loadContext = function(url, callback) {
     xmlhttp.open("GET", url, true);
     xmlhttp.onload = function() {
         var featureTypes = [];
-        var context = me.unmarshaller.unmarshalDocument(this.responseXML).value;
+        var context = me.unmarshaller.unmarshalDocument(this.responseXML);
 
         console.info("Unmarshalled: ", context);
-        callback.call(me, context);
+        callback.call(me, context.value);
     };
     xmlhttp.send();
+};
+
+owc.client.prototype.writeContext = function(obj) {
+    return this.marshaller.marshalDocument(obj);
 };
 
 // application code
@@ -77,6 +81,47 @@ function onContextLoaded(context) {
     }
 }
 
+function writeContext() {
+    var value = {
+        "version": "0.3.1",
+        "id": "ows-context-ex-1-v3",
+        "general": {
+            "boundingBox": {
+                "name": {
+                    "namespaceURI": "http://www.opengis.net/ows",
+                    "localPart": "BoundingBox",
+                    "prefix": "ows"
+                },
+                "value": {
+                    "crs": "EPSG:4326",
+                    "lowerCorner": [-117, 32],
+                    "upperCorner": [-116, 33]
+                }
+            },
+            "title": "OWS Context version 0.3.1 showing nested layers"
+        }
+    };
+    //var obj = {
+        //general: {
+            //window: {
+                //height: 150,
+                //width: 150
+            //}
+        //}
+    //}
+    var xml = myOwcClient.writeContext({
+        name: {
+            //key: "{http://www.opengis.net/ows-context}OWSContext",
+            localPart: 'OWSContext',
+            namespaceURI: "http://www.opengis.net/ows-context",
+            prefix: "ows-context",
+            string: "{http://www.opengis.net/ows-context}ows-context:OWSContext"
+        },
+        value: value
+    });
+    return xml;
+}
+
 map = new ol.Map({
     controls: ol.control.defaults({
         attributionOptions: ({
@@ -92,4 +137,12 @@ $('#contexts a').on('click', function() {
     var url = link.attr('data-url');
     myOwcClient.loadContext('contexts/' + url, onContextLoaded);
     return false;
+});
+
+$('#export').on('click', function() {
+    var xml = writeContext();
+
+    var string = new XMLSerializer().serializeToString(xml);
+    var base64 = exampleNS.strToBase64(string);
+    $(this).attr('href', 'data:xml;base64,' + base64);
 });
