@@ -82,42 +82,39 @@ function onContextLoaded(context) {
 }
 
 function writeContext() {
-    var value = {
-        "version": "0.3.1",
-        "id": "ows-context-ex-1-v3",
-        "general": {
-            "boundingBox": {
-                "name": {
-                    "namespaceURI": "http://www.opengis.net/ows",
-                    "localPart": "BoundingBox",
-                    "prefix": "ows"
-                },
-                "value": {
-                    "crs": "EPSG:4326",
-                    "lowerCorner": [-117, 32],
-                    "upperCorner": [-116, 33]
-                }
+
+    var extent = map.getView().calculateExtent(map.getSize());
+
+    var general = {
+        boundingBox: {
+            name: {
+                "namespaceURI": "http://www.opengis.net/ows",
+                "localPart": "BoundingBox",
+                "prefix": "ows"
             },
-            "title": "OWS Context version 0.3.1 showing nested layers"
-        }
+            value: {
+                crs: map.getView().getProjection().getCode(),
+                lowerCorner: [extent[0], extent[1]],
+                upperCorner: [extent[2], extent[3]],
+            }
+        },
+        title: "The title for the context"
     };
-    //var obj = {
-        //general: {
-            //window: {
-                //height: 150,
-                //width: 150
-            //}
-        //}
-    //}
+
+    var context = {
+        version: "0.3.1",
+        id: "ows-context-ex-1-v3",
+        general: general
+    };
+
     var xml = myOwcClient.writeContext({
         name: {
-            //key: "{http://www.opengis.net/ows-context}OWSContext",
             localPart: 'OWSContext',
             namespaceURI: "http://www.opengis.net/ows-context",
             prefix: "ows-context",
             string: "{http://www.opengis.net/ows-context}ows-context:OWSContext"
         },
-        value: value
+        value: context
     });
     return xml;
 }
