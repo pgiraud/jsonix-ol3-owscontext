@@ -1,0 +1,6 @@
+[submodule "js/w3c-schemas"]
+	path = js/w3c-schemas
+	url = https://github.com/highsource/w3c-schemas.git
+[submodule "js/ogc-schemas"]
+	path = js/ogc-schemas
+	url = https://github.com/highsource/ogc-schemas.git

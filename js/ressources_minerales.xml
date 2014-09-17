@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ows-context:OWSContext xmlns:ows-context="http://www.opengis.net/ows-context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:ns9="http://www.w3.org/2005/Atom" xmlns:xal="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:ins="http://www.inspire.org" xmlns:context="http://www.opengis.net/context">
+    <ows-context:General>
+		<ows-context:Window height="672" width="1240"/>
+		<ows:BoundingBox crs="EPSG:3857">
+			<ows:LowerCorner>-1429066 5314085</ows:LowerCorner>
+			<ows:UpperCorner>1133740 6714032</ows:UpperCorner>
+		</ows:BoundingBox>
+    </ows-context:General>
+    <ows-context:ResourceList>
+		
+				<ows-context:Layer name="{type=google.maps.MapTypeId.SATELLITE}" queryable="false" hidden="false" group="Background layers">
+			<ows:Title>Google SATELLITE</ows:Title>
+			<ows-context:Server service="urn:ogc:serviceType:WMS" version="">
+				<ows-context:OnlineResource  xlink:href=""/>
+			</ows-context:Server>
+		</ows-context:Layer>
+		
+		<ows-context:Layer name="{type=google.maps.MapTypeId.ROADMAP}" queryable="false" hidden="false" group="Background layers">
+			<ows:Title>Google ROADMAP</ows:Title>
+			<ows-context:Server service="urn:ogc:serviceType:WMS" version="">
+				<ows-context:OnlineResource  xlink:href=""/>
+			</ows-context:Server>
+		</ows-context:Layer>
+
+		<ows-context:Layer name="{type=google.maps.MapTypeId.HYBRID}" queryable="false" hidden="false" group="Background layers">
+			<ows:Title>Google HYBRID</ows:Title>
+			<ows-context:Server service="urn:ogc:serviceType:WMS" version="">
+				<ows-context:OnlineResource  xlink:href=""/>
+			</ows-context:Server>
+		</ows-context:Layer>		
+
+		<ows-context:Layer name="{type=google.maps.MapTypeId.TERRAIN}" queryable="false" hidden="false" group="Background layers">
+			<ows:Title>Google TERRAIN</ows:Title>
+			<ows-context:Server service="urn:ogc:serviceType:WMS" version="">
+				<ows-context:OnlineResource  xlink:href=""/>
+			</ows-context:Server>
+		</ows-context:Layer>		
+		
+		<ows-context:Layer name="{type=osm}" queryable="false" hidden="false" group="Background layers">
+			<ows:Title>OpenStreetMap</ows:Title>
+			<ows-context:Server service="urn:ogc:serviceType:WMS" version="">
+				<ows-context:OnlineResource  xlink:href=""/>
+			</ows-context:Server>
+		</ows-context:Layer>
+        <ows-context:Layer queryable="true" opacity="1" hidden="false" group="/Milieu physique/Géologie sédimentologie/Ressources Minérales" name="IFR_GRA_GEOL_Adeq_Outils">
+            <ows-context:Server version="1.1.1" service="urn:ogc:serviceType:WMS">
+                <ows-context:OnlineResource xlink:href="http://www.ifremer.fr/services/wms/granulats_marins"/>
+            </ows-context:Server>
+            <ows-context:StyleList/>
+        </ows-context:Layer>
+        <ows-context:Layer queryable="true" opacity="1" hidden="false" group="/Milieu physique/Géologie sédimentologie/Ressources Minérales" name="IFR_GRA_GEOL_Pot_Extrac">
+            <ows-context:Server version="1.1.1" service="urn:ogc:serviceType:WMS">
+                <ows-context:OnlineResource xlink:href="http://www.ifremer.fr/services/wms/granulats_marins"/>
+            </ows-context:Server>
+            <ows-context:StyleList/>
+        </ows-context:Layer>
+    </ows-context:ResourceList>
+</ows-context:OWSContext>
