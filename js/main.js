@@ -4,7 +4,14 @@ if (!window.owc) {
 var owc = window.owc;
 
 owc.client = function(options) {
-    this.context =  new Jsonix.Context([XLink_1_0, OWS_1_0_0, Filter_1_0_0, GML_2_1_2, SLD_1_0_0, OWC_0_3_1]);
+    this.context =  new Jsonix.Context(
+        [XLink_1_0, OWS_1_0_0, Filter_1_0_0, GML_2_1_2, SLD_1_0_0, OWC_0_3_1],
+        {
+            namespacePrefixes : {
+               "http://www.w3.org/1999/xlink": "xlink"
+            }
+        }
+    );
     this.unmarshaller = this.context.createUnmarshaller();
     this.marshaller = this.context.createMarshaller();
 };
@@ -101,10 +108,36 @@ function writeContext() {
         title: "The title for the context"
     };
 
+    var resourceList = {
+        layer: []
+    };
+    map.getLayers().forEach(function(layer) {
+        var source = layer.getSource();
+        var url = "";
+        var name;
+        if (source instanceof ol.source.OSM) {
+            name = "{type=osm}"
+        } else if (source instanceof ol.source.ImageWMS) {
+            name = source.getParams().LAYERS;
+            url = layer.getSource().getUrl()
+        }
+        resourceList.layer.push({
+            hidden: layer.getVisible(),
+            name: name,
+            server: [{
+                onlineResource: [{
+                    href: url
+                }],
+                service: "urn:ogc:serviceType:WMS"
+            }]
+        })
+    });
+
     var context = {
         version: "0.3.1",
         id: "ows-context-ex-1-v3",
-        general: general
+        general: general,
+        resourceList: resourceList
     };
 
     var xml = myOwcClient.writeContext({
